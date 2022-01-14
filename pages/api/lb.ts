@@ -12,5 +12,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     let data = await Currency.findOne({ name: 'lb', date: { $gt: lastHalfHour } })
     if (!data) NEW = await lebanonprices()
     else NEW = data
+<<<<<<< Updated upstream
     res.status(200).json(NEW) 
 } 
+=======
+    res.status(200).json(NEW)
+} 
+>>>>>>> Stashed changes
