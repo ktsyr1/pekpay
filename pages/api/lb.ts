@@ -8,9 +8,9 @@ type Data = { data: any }
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     let timeNow = new Date().getTime()
     let lastHalfHour = timeNow - (1000 * 10 /** 60 * 30*/) 
-
-    let NEW = await Currency.findOne({ name: 'lb', date: { $gt: lastHalfHour } })
-    if (!NEW) NEW = await lebanonprices()
+let NEW
+    let data= await Currency.findOne({ name: 'lb', date: { $gt: lastHalfHour } })
+    if (!data) NEW = await lebanonprices()
 
     res.status(200).json(NEW)
 } 
