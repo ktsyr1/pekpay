@@ -1,0 +1,36 @@
+use('botqa');
+
+// let query =[ 'عين']
+// let aaa =db.searchlogs.findOne({ keys: { $in: query } }) 
+// db.medicalcenters.find({ 'time.purview': { $in: aaa.keys } });
+
+// db.medicalcenters.findOneAndUpdate(
+//     { 
+//         keys: ['اسنان' ], 
+//         process:true  ,
+        
+//         "collocation": "medicalcenters",
+//         "query": "purview", 
+//      }}
+// ) 
+let key = 'اسنان' 
+// db.searchlogs.insertOne(
+//      { 
+//         keys: [key], 
+//         process:true  ,
+        
+//         "collocation": "medicalcenters",
+//         "query": "purview", 
+//     }
+// )
+ 
+db.searchlogs.findOne( { keys:{$in : [key ]}})  
+// db.searchlogs.find( { values: [key ],process:  false})  
+// add to keys:<array>
+// db.searchlogs.findOneAndUpdate( 
+//     { keys: [key ],process:  true}, 
+//      { $push:{ keys: key }}
+
+// )
+// delete Documents
+// db.searchlogs.deleteMany( { values: [key ],process:  false})

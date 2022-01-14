@@ -1,0 +1,34 @@
+ 
+// Create a new database.
+use('srf');
+let ti=new Date().getTime()
+
+// db.currency.insertOne({
+//     "time":1640183445638,
+//     "sell": 3500,
+//     "buy": 3550,
+//     "name": "sy"
+// })
+db.currency.find( {'time',
+            name:
+        }
+    }
+])
+
+
+/**
+    * api query [lang,c]
+    * find {time : new Date() - 1800000}
+    * verify names cuurency [lb,sy,tr]
+    * 
+    * 
+ */
+
+// db.currency.aggregate([
+//     {  $project :{ 
+//         Date:{
+//             $min:'$time'
+//             }
+//         }
+//     }
+// ])
