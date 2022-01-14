@@ -11,6 +11,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 let NEW
     let data= await Currency.findOne({ name: 'lb', date: { $gt: lastHalfHour } })
     if (!data) NEW = await lebanonprices()
-
+    else NEW = data
     res.status(200).json(NEW)
 } 
