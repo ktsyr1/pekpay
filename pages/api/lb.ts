@@ -7,10 +7,10 @@ import { Currency } from 'res/mongoDB';
 type Data = { data: any }
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     let timeNow = new Date().getTime()
-    let lastHalfHour = timeNow - (1000 * 10 /** 60 * 30*/) 
-let NEW
-    let data= await Currency.findOne({ name: 'lb', date: { $gt: lastHalfHour } })
+    let lastHalfHour = timeNow - (1000 * 10 /** 60 * 30*/)
+    let NEW
+    let data = await Currency.findOne({ name: 'lb', date: { $gt: lastHalfHour } })
     if (!data) NEW = await lebanonprices()
     else NEW = data
-    res.status(200).json(NEW)
+    res.status(200).json(NEW) 
 } 
