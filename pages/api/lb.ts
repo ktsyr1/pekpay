@@ -15,5 +15,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if (!data) NEW = await lebanonprices()
     else NEW = data
     NEW['name'] = 'ليرة لبناني'
-    res.status(200).json([NEW])
+NEW =[NEW]
+    res.status(200).json(NEW)
 } 
