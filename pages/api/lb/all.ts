@@ -40,7 +40,7 @@ async function Verify(res: any, currencies: any) {
     if (filter.length === 0) data = await lebanonprices()
     else data = filter[0]
 
-    let currency: any = []
+    let Currencies: any = []
 
     // map res to [one]
     await Promise.all(currencies.map(async (currency: any) => {
@@ -48,18 +48,16 @@ async function Verify(res: any, currencies: any) {
 
         if (filter2.length > 0) {
             const build = Build(filter2[0])
-            currency.push(build)
+            Currencies.push(build)
         } else {
             if (currency === 'lb') {
-                console.log(currency);
-
                 let lb = await lebanonprices()
                 const buildlb = Build(lb)
-                currency.push(buildlb)
+                Currencies.push(buildlb)
             } else if (currency === 'sy') {
                 let sy = await sp_today()
                 const buildsy: any = Build(sy)
-                currency.push(buildsy)
+                Currencies.push(buildsy)
             }
             // full.currency.push(filter2[0])
         }
@@ -67,7 +65,7 @@ async function Verify(res: any, currencies: any) {
     }))
     let { name, update, sell, buy, date, updown } = data
     let full = {
-        name, date, update, sell, buy, updown, currency
+        name, date, update, sell, buy, updown, Currencies
     }
     // filter one
 
