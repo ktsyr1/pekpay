@@ -10,10 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     let currencies = await Currency.find({ date: { $gt: lastHalfHour } })
     let data = await Verify(currencies, ['lb', 'sy'])
-
-    // console.log(data); 
-    // let lb = await lebanonprices()
-    // let data = await Currency.create(lb)
+ 
     res.status(200).json(data)
 }
 async function Verify(res: any, currencies: any) {
@@ -24,8 +21,7 @@ async function Verify(res: any, currencies: any) {
     await Promise.all(currencies.map(async (currency: any) => {
         let filter = res.filter((word: any) => word.name === currency);
         if (filter.length > 0) data.push(filter[0])
-        else {
-
+        else { 
             if (currency === 'lb') data.push(lb)
             else if (currency === 'sy') data.push(sy)
         }
