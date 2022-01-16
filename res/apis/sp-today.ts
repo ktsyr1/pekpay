@@ -12,12 +12,9 @@ async function sp_today() {
         buy: Number(filter.ask),
         date: new Date().getTime()
     }
-    await Currency.create(schema)
-        .then(a => {
-            console.log({ a });
 
-            return a
-        })
+    Currency.create(schema)
+    return schema
 
 
 }

@@ -16,8 +16,6 @@ async function lebanonprices() {
         .select('sell')
     if (schema.sell > find.sell) schema['updown'] = 'up'
     else if (schema.sell < find.sell) schema['updown'] = 'down'
-    // , "down"] },
-    console.log(schema);
 
     Currency.create(schema)
     return schema
