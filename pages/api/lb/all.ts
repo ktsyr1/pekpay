@@ -3,7 +3,7 @@ import lebanonprices from 'res/apis/lebanonprices'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Currency } from 'res/mongoDB';
 
-interface Data {
+interface RES {
     name: string,
     update: Number,
     date: Number,
@@ -11,6 +11,9 @@ interface Data {
     buy: Number,
     updown: string,
     currency: any
+}
+interface Data {
+    data: any
 }
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     let timeNow = new Date().getTime()
@@ -22,8 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         .sort({ _id: -1 })
         .select(' -__v -_id')
 
-    let data = await Verify(currencies, ['lb', 'sy'])
-
+    let data: any = await Verify(currencies, ['lb', 'sy'])
     res.status(200).json(data)
 }
 async function Verify(res: any, currencies: any) {
