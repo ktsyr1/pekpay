@@ -33,49 +33,47 @@ async function Verify(res: any, currencies: any) {
      * find and filter lb
      * new currency
     */
-    let data
+    let data: any
     let filter: any = Filter(res, 'lb')
     /**
      * if filter.length === 0 
      * lb scrap 
      */
+    // filter one
     if (filter.length === 0) data = await lebanonprices()
     else data = filter[0]
+
 
     let Currencies: any = []
 
     // map res to [one]
     await Promise.all(currencies.map(async (currency: any) => {
-        let filter2 = Filter(res, currency)
-
+        let filter2: any = Filter(res, currency)
+        /**
+         * if length > 0 
+         * BUILD DATA 
+         * push currency 
+        */
         if (filter2.length > 0) {
-            const build = Build(filter2[0])
+            const build = Build(filter2[0], data)
             Currencies.push(build)
         } else {
             if (currency === 'lb') {
                 let lb = await lebanonprices()
-                const buildlb = Build(lb)
+                const buildlb = Build(lb, data)
                 Currencies.push(buildlb)
             } else if (currency === 'sy') {
                 let sy = await sp_today()
-                const buildsy: any = Build(sy)
+                const buildsy: any = Build(sy, data)
                 Currencies.push(buildsy)
             }
-            // full.currency.push(filter2[0])
         }
 
     }))
     let { name, update, sell, buy, date, updown } = data
     let full = {
-        name, date, update, sell, buy, updown, Currencies
+        name: country[name].ar, date: new Date(date), update: new Date(update), sell, buy, updown, Currencies
     }
-    // filter one
-
-    /**
-     * if length > 0 
-     * BUILD DATA 
-     * push currency 
-    */
     /**
      * 
      */
@@ -84,13 +82,29 @@ async function Verify(res: any, currencies: any) {
 function Filter(target: any, One: string) {
     return target.filter((word: any) => word.name === One)
 }
-function Build(data: any) {
+function Build(data: any, lb: any) {
     let { name, update, sell, buy, date, updown } = data
+    console.log(`lb to ${name} = ${(lb.sell / sell)}`);
+    console.log(`lb  = ${lb}`);
 
     let NEW = {
-        name, date, update, updown,
-        lb: { sell, buy },
+        name: country[name].ar,
+        date: new Date(date),
+        update: new Date(update),
+        updown,
+        lb: {
+            sell: lb.sell / sell,
+            buy: lb.buy / buy
+        },
         doler: { sell, buy }
     }
     return NEW
-} 
+}
+let country: any = {
+    lb: {
+        ar: "ليرة لبنانية"
+    },
+    sy: {
+        ar: "ليرة سورية"
+    }
+}

@@ -12,10 +12,7 @@ async function sp_today() {
         buy: Number(filter.ask),
         date: new Date().getTime()
     }
-
     Currency.create(schema)
     return schema
-
-
 }
 export default sp_today

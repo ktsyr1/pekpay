@@ -1,5 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import lebanonprices from 'res/apis/lebanonprices'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Currency } from 'res/mongoDB';
