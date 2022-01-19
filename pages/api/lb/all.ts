@@ -70,7 +70,7 @@ async function Verify(res: any, currencies: any) {
         }
 
     }))
-     
+
     return Currencies
 }
 function Filter(target: any, One: string) {
@@ -86,6 +86,8 @@ function Build(data: any, lb: any) {
         date: new Date(date),
         update: new Date(update),
         updown,
+        country_code: name,
+        coinCode_ar: country[name].coinCode_ar,
         lb: {
             sell: lb.sell / sell,
             buy: lb.buy / buy
@@ -96,9 +98,12 @@ function Build(data: any, lb: any) {
 }
 let country: any = {
     lb: {
+        coinCode_ar: 'ل.ل',
         ar: "ليرة لبنانية"
+
     },
     sy: {
+        coinCode_ar: "ل.س",
         ar: "ليرة سورية"
     }
 }
