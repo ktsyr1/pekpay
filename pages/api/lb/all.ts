@@ -70,14 +70,8 @@ async function Verify(res: any, currencies: any) {
         }
 
     }))
-    let { name, update, sell, buy, date, updown } = data
-    let full = {
-        name: country[name].ar, date: new Date(date), update: new Date(update), sell, buy, updown, Currencies
-    }
-    /**
-     * 
-     */
-    return full
+     
+    return Currencies
 }
 function Filter(target: any, One: string) {
     return target.filter((word: any) => word.name === One)
