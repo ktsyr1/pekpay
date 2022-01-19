@@ -11,6 +11,7 @@ async function sp_today() {
         sell: Number(filter.bid),
         buy: Number(filter.ask),
         date: new Date().getTime(),
+        type:'local',
         updown: "Equal"
     }
 

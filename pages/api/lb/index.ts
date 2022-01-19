@@ -5,7 +5,7 @@ import { Currency } from 'res/mongoDB';
 type Data = { data: any }
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     let timeNow = new Date().getTime()
-    let lastHalfHour = timeNow - (1000 * 60 * 30)
+    let lastHalfHour = timeNow - (1000 * 60 * 15)
     let NEW: any
     let data = await Currency
         .findOne({ name: 'lb', date: { $gt: lastHalfHour } })
@@ -18,7 +18,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         "date": new Date(NEW.date),
         "sell": NEW.sell,
         "buy": NEW.buy,
-        "updown": NEW.updown
+        "updown": NEW.updown,
+        type: NEW.type
+
     }]
     res.status(200).json(Data)
 } 

@@ -5,7 +5,9 @@ import { Currency } from 'res/mongoDB';
 import sp_today from 'res/apis/sp-today'
 import lebanonprices from 'res/apis/lebanonprices'
 import freecurrencyapi from 'res/apis/freecurrencyapi';
-
+/**
+ * 
+ */
 interface RES {
     name: string,
     update: Number,
@@ -24,7 +26,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // let lastHalfHour = timeNow - (1000 * 5)
 
     let currencies = await Currency
-        .find({ date: { $gt: lastHalfHour } })
+
+        .find({ type: 'local', date: { $gt: lastHalfHour } })
         .sort({ _id: -1 })
         .select(' -__v -_id')
 
@@ -49,7 +52,8 @@ async function Verify(res: any, currencies: any) {
 
     let Currencies: any = []
 
-    // map res to [one]
+    // map res to [one] 
+
     await Promise.all(currencies.map(async (currency: any) => {
         let filter2: any = Filter(res, currency)
         /**
@@ -57,34 +61,22 @@ async function Verify(res: any, currencies: any) {
          * BUILD DATA 
          * push currency 
         */
-        if (filter2.length > 0) {
-            const build = Build(filter2[0], data)
-            Currencies.push(build)
-        } else {
-            // if (currency === 'lb') {
-            //     let lb = await lebanonprices()
-            //     const buildlb = Build(lb, data)
-            //     Currencies.push(buildlb)
-            // } else
-            if (currency === 'sy') {
-                let sy = await sp_today()
-                const buildsy: any = Build(sy, data)
-                Currencies.push(buildsy)
-            } else if (currency === 'ir') {
-                let ir = await freecurrencyapi('ir')
-                const buildsy: any = Build(ir, data)
-                Currencies.push(buildsy)
-            } else if (currency === 'de') {
-                let de = await freecurrencyapi('de')
-                const buildsy: any = Build(de, data)
-                Currencies.push(buildsy)
-            } else if (currency === 'iq') {
-                let iq = await freecurrencyapi('iq')
-                const buildsy: any = Build(iq, data)
-                Currencies.push(buildsy)
+        if (currency !== 'lb') {
+            if (filter2.length > 0) {
+                const build = Build(filter2[0], data)
+                Currencies.push(build)
+            } else { 
+                if (currency === 'sy') {
+                    let sy = await sp_today()
+                    const buildsy: any = Build(sy, data)
+                    Currencies.push(buildsy)
+                } else if (currency === 'ir' || 'de' || 'iq') {
+                    let ir = await freecurrencyapi(currency)
+                    const buildsy: any = Build(ir, data)
+                    Currencies.push(buildsy)
+                }
             }
         }
-
     }))
 
     return Currencies

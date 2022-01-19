@@ -9,13 +9,16 @@ async function lebanonprices() {
         sell: data.dol_sell,
         buy: data.dol_buy,
         date: new Date().getTime(),
+        type:'local',
         updown: "Equal"
     }
+    console.log(schema);
+    
     let find: any = await Currency.findOne({ name: 'lb', sell: { $ne: schema.sell } })
         .sort({ _id: -1 })
         .select('sell')
-    if (schema.sell > find.sell) schema['updown'] = 'up'
-    else if (schema.sell < find.sell) schema['updown'] = 'down'
+    if (schema.sell > find?.sell) schema['updown'] = 'up'
+    else if (schema.sell < find?.sell) schema['updown'] = 'down'
 
     Currency.create(schema)
     return schema

@@ -1,5 +1,5 @@
 
-import mongoose, { Schema, model } from 'mongoose'; 
+import mongoose, { Schema, model } from 'mongoose';
 let schema = new Schema({
     name: String,
     update: { type: Number },
@@ -7,6 +7,7 @@ let schema = new Schema({
     sell: Number,
     buy: Number,
     updown: { type: String, default: 'Equal', enum: ["Equal", "up", "down"] },
+    type: String
 })
 mongoose.models = {}
 let currency = model('currency', schema)

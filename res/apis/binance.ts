@@ -1,19 +1,19 @@
 import axios from "axios";
 import { Currency } from 'res/mongoDB';
-async function freecurrencyapi(q: string) {
-    let URL: string = "https://freecurrencyapi.net/api/v2/latest?apikey=dae4db80-7936-11ec-9c16-9567237e8923"
+async function binance(q: string) {
+    let URL: string = "https://api.binance.com/api/v1/ticker/allPrices"
     let { data } = await axios.get(URL)
     let sell: any = ''
-    if (q === 'ir') sell = "IRR"
-    else if (q === 'de') sell = "EUR"
-    else if (q === 'iq') sell = "IQD"
+    if (q === 'btc') sell = "BTCUSDT"
+    else if (q === 'eth') sell = "ETHUSDT"
+    let Data = data.filter((word: any) => word.symbol === q)
     let schema = {
-        update: Number(data.query.timestamp),
+        update: new Date().getTime(),
         name: q,
-        sell: data.data[sell],
-        buy: data.data[sell],
+        sell: Data.price,
+        buy: Data.price,
         date: new Date().getTime(),
-        type: 'local',
+        type: 'crypto',
         updown: "Equal"
     }
     let find: any = await Currency.findOne({ name: q, sell: { $ne: schema.sell } })
@@ -26,4 +26,4 @@ async function freecurrencyapi(q: string) {
     Currency.create(schema)
     return schema
 }
-export default freecurrencyapi
+export default binance

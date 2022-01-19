@@ -9,11 +9,11 @@ let ti=new Date().getTime()
 //     "buy": 3550,
 //     "name": "sy"
 // })
-db.currency.find( {'time',
-            name:
-        }
-    }
-])
+// db.currency.find( {'time',
+//             name:
+//         }
+//     }
+// ])
 
 
 /**
@@ -24,11 +24,4 @@ db.currency.find( {'time',
     * 
  */
 
-// db.currency.aggregate([
-//     {  $project :{ 
-//         Date:{
-//             $min:'$time'
-//             }
-//         }
-//     }
-// ])
+db.currencies.deleteMany({name:'lb'})
