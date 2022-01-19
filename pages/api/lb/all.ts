@@ -20,7 +20,7 @@ interface Data {
 }
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     let timeNow = new Date().getTime()
-    let lastHalfHour = timeNow - (1000 * 60 * 2)
+    let lastHalfHour = timeNow - (1000 * 60 * 15)
     // let lastHalfHour = timeNow - (1000 * 5)
 
     let currencies = await Currency
