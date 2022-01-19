@@ -1,7 +1,10 @@
-import sp_today from 'res/apis/sp-today'
-import lebanonprices from 'res/apis/lebanonprices'
+
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Currency } from 'res/mongoDB';
+
+import sp_today from 'res/apis/sp-today'
+import lebanonprices from 'res/apis/lebanonprices'
+import freecurrencyapi from 'res/apis/freecurrencyapi';
 
 interface RES {
     name: string,
@@ -17,7 +20,7 @@ interface Data {
 }
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     let timeNow = new Date().getTime()
-    let lastHalfHour = timeNow - (1000 * 60 * 30)
+    let lastHalfHour = timeNow - (1000 * 60 * 2)
     // let lastHalfHour = timeNow - (1000 * 5)
 
     let currencies = await Currency
@@ -25,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         .sort({ _id: -1 })
         .select(' -__v -_id')
 
-    let data: any = await Verify(currencies, ['lb', 'sy'])
+    let data: any = await Verify(currencies, ['lb', 'sy','ir'])
     res.status(200).json(data)
 }
 async function Verify(res: any, currencies: any) {
@@ -58,13 +61,18 @@ async function Verify(res: any, currencies: any) {
             const build = Build(filter2[0], data)
             Currencies.push(build)
         } else {
-            if (currency === 'lb') {
-                let lb = await lebanonprices()
-                const buildlb = Build(lb, data)
-                Currencies.push(buildlb)
-            } else if (currency === 'sy') {
+            // if (currency === 'lb') {
+            //     let lb = await lebanonprices()
+            //     const buildlb = Build(lb, data)
+            //     Currencies.push(buildlb)
+            // } else
+                if (currency === 'sy') {
                 let sy = await sp_today()
                 const buildsy: any = Build(sy, data)
+                Currencies.push(buildsy)
+            } else if (currency === 'ir') {
+                let ir = await freecurrencyapi('ir')
+                const buildsy: any = Build(ir, data)
                 Currencies.push(buildsy)
             }
         }
@@ -85,7 +93,7 @@ function Build(data: any, lb: any) {
         let i = str.indexOf(".")
         let Num = str.slice(0, i + 3)
         return Number(Num)
-    } 
+    }
     let NEW = {
         name: country[name].ar,
         date: new Date(date),
@@ -105,10 +113,13 @@ let country: any = {
     lb: {
         coinCode_ar: 'ل.ل',
         ar: "ليرة لبنانية"
-
     },
     sy: {
         coinCode_ar: "ل.س",
         ar: "ليرة سورية"
-    }
+    },
+    ir: {
+        coinCode_ar: "﷼",
+        ar: "ريال ايراني"
+    },
 }
