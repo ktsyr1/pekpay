@@ -78,9 +78,14 @@ function Filter(target: any, One: string) {
 }
 function Build(data: any, lb: any) {
     let { name, update, sell, buy, date, updown } = data
-    console.log(`lb to ${name} = ${(lb.sell / sell)}`);
-    console.log(`lb  = ${lb}`);
-
+    // console.log(`lb to ${name} = ${(lb.sell / sell)}`);
+    // console.log(`lb  = ${lb}`); 
+    function toShart(a: any) {
+        let str = a.toString()
+        let i = str.indexOf(".")
+        let Num = str.slice(0, i + 3)
+        return Number(Num)
+    } 
     let NEW = {
         name: country[name].ar,
         date: new Date(date),
@@ -89,8 +94,8 @@ function Build(data: any, lb: any) {
         country_code: name,
         coinCode_ar: country[name].coinCode_ar,
         lb: {
-            sell: lb.sell / sell,
-            buy: lb.buy / buy
+            sell: toShart(lb.sell / sell),
+            buy: toShart(lb.buy / buy)
         },
         doler: { sell, buy }
     }
