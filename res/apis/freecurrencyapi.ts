@@ -16,6 +16,8 @@ async function freecurrencyapi(q: string) {
     let find: any = await Currency.findOne({ name: 'ir', sell: { $ne: schema.sell } })
         .sort({ _id: -1 })
         .select('sell')
+    console.log(schema);
+    
     if (schema.sell > find.sell) schema['updown'] = 'up'
     else if (schema.sell < find.sell) schema['updown'] = 'down'
 
