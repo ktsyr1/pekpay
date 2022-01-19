@@ -5,21 +5,21 @@ async function freecurrencyapi(q: string) {
     let { data } = await axios.get(URL)
     let sell: any = ''
     if (q === 'ir') sell = "IRR"
-    else if (q === 'de') sell = "EUR"
-    else if (q === 'iq') sell = "IQD"
+    else if(q === 'de') sell = "EUR"
+    else if(q === 'iq') sell = "IQD"
     let schema = {
         update: Number(data.query.timestamp),
         name: q,
         sell: data.data[sell],
         buy: data.data[sell],
         date: new Date().getTime(),
-        type: 'local',
+        type:'local',
         updown: "Equal"
     }
-    let find: any = await Currency.findOne({ name: q, sell: { $ne: schema.sell } })
+    let find: any = await Currency.findOne({ name:q, sell: { $ne: schema.sell } })
         .sort({ _id: -1 })
-        .select('sell')
-
+        .select('sell') 
+    
     if (schema.sell > find?.sell) schema['updown'] = 'up'
     else if (schema.sell < find?.sell) schema['updown'] = 'down'
 

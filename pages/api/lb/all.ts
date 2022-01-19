@@ -6,7 +6,7 @@ import sp_today from 'res/apis/sp-today'
 import lebanonprices from 'res/apis/lebanonprices'
 import freecurrencyapi from 'res/apis/freecurrencyapi';
 /**
- * 
+ * add tr
  */
 interface RES {
     name: string,

@@ -5,17 +5,23 @@ async function binance(q: string) {
     let { data } = await axios.get(URL)
     let sell: any = ''
     if (q === 'btc') sell = "BTCUSDT"
-    else if (q === 'eth') sell = "ETHUSDT"
-    let Data = data.filter((word: any) => word.symbol === q)
+    else if (q === 'ethereum') sell = "ETHUSDT"
+    else if (q === 'BNB') sell = "BNBUSDT"
+    else if (q === 'XRP') sell = "XRPUSDT"
+    let Data = data.filter((word: any) => {
+        return word.symbol === sell
+    })
     let schema = {
         update: new Date().getTime(),
         name: q,
-        sell: Data.price,
-        buy: Data.price,
+        sell: Number( Data[0].price),
+        buy:  Number( Data[0].price),
         date: new Date().getTime(),
         type: 'crypto',
         updown: "Equal"
     }
+    console.log({Data});
+    
     let find: any = await Currency.findOne({ name: q, sell: { $ne: schema.sell } })
         .sort({ _id: -1 })
         .select('sell')
@@ -23,7 +29,7 @@ async function binance(q: string) {
     if (schema.sell > find?.sell) schema['updown'] = 'up'
     else if (schema.sell < find?.sell) schema['updown'] = 'down'
 
-    Currency.create(schema)
+    // Currency.create(schema)
     return schema
 }
 export default binance

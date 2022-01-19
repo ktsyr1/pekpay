@@ -1,10 +1,7 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Currency } from 'res/mongoDB';
-
-import sp_today from 'res/apis/sp-today'
-import lebanonprices from 'res/apis/lebanonprices'
-import freecurrencyapi from 'res/apis/freecurrencyapi';
+ 
 import binance from 'res/apis/binance';
 
 interface RES {
@@ -19,6 +16,9 @@ interface RES {
 interface Data {
     data: any
 }
+/**
+ *  add to Dogcoin  Polygon 
+ */
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     let timeNow = new Date().getTime()
     let lastHalfHour = timeNow - (1000 * 60 * 5)
@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         .sort({ _id: -1 })
         .select(' -__v -_id')
 
-    let data: any = await Verify(currencies, ['btc', 'eth'])
+    let data: any = await Verify(currencies, ['btc', 'ethereum' , 'BNB','XRP'])
     res.status(200).json(data)
 }
 
@@ -39,34 +39,18 @@ async function Verify(res: any, currencies: any) {
     let Currencies: any = []
 
     await Promise.all(currencies.map(async (currency: any) => {
-        let filter = Filter(res, currency)
-        // console.log(currency);
-        // console.log(filter);
+        let filter = Filter(res, currency) 
+        
+        console.log(currency);
         if (filter.length > 0) {
-            // const build = Build(filter2[0], data)
-            // Currencies.push(build)
-        } else {
-            //     // if (currency === 'lb') {
-            //     //     let lb = await lebanonprices()
-            //     //     const buildlb = Build(lb, data)
-            //     //     Currencies.push(buildlb)
-            //     // } else
-            if (currency === 'btc' || 'eth') {
+            Currencies.push(filter[0])
+        } else { 
+            if (currency === 'btc' || 'ethereum' || 'BNB'||'XRP') {
                 console.log(currency);
-                // let btc = await binance('btc')
-                // Currencies.push(btc)
+                let btc = await binance(currency)
+                Currencies.push(btc)
             } else if (currency === 'eth') {
-                //         let ir = await freecurrencyapi('ir')
-                //         const buildsy: any = Build(ir, data)
-                //         Currencies.push(buildsy)
-                //     } else if (currency === 'de') {
-                //         let de = await freecurrencyapi('de')
-                //         const buildsy: any = Build(de, data)
-                //         Currencies.push(buildsy)
-                //     } else if (currency === 'iq') {
-                //         let iq = await freecurrencyapi('iq')
-                //         const buildsy: any = Build(iq, data)
-                //         Currencies.push(buildsy)
+                
             }
         }
 
