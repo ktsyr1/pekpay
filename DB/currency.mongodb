@@ -24,4 +24,4 @@ let ti=new Date().getTime()
     * 
  */
 
-db.currencies.deleteMany({name:'lb'})
+db.currencies.deleteMany({type:'crypto'})
