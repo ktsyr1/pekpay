@@ -135,6 +135,6 @@ let country: any = {
     },
     ae: {
         coinCode_ar: "د.إ",
-        ar: "دينار امارتي"
+        ar: "درهم امارتي"
     },
 }
