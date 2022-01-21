@@ -26,7 +26,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // let lastHalfHour = timeNow - (1000 * 5)
 
     let currencies = await Currency
-
         .find({ type: 'local', date: { $gt: lastHalfHour } })
         .sort({ _id: -1 })
         .select(' -__v -_id')
