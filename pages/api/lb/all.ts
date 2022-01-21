@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         .sort({ _id: -1 })
         .select(' -__v -_id')
 
-    let data: any = await Verify(currencies, ['lb', 'sy', 'ir', 'de', 'iq'])
+    let data: any = await Verify(currencies, ['lb', 'sy', 'ir', 'de', 'iq', 'sa', 'ae'])
     res.status(200).json(data)
 }
 async function Verify(res: any, currencies: any) {
@@ -64,12 +64,12 @@ async function Verify(res: any, currencies: any) {
             if (filter2.length > 0) {
                 const build = Build(filter2[0], data)
                 Currencies.push(build)
-            } else { 
+            } else {
                 if (currency === 'sy') {
                     let sy = await sp_today()
                     const buildsy: any = Build(sy, data)
                     Currencies.push(buildsy)
-                } else if (currency === 'ir' || 'de' || 'iq') {
+                } else if (currency === 'ir' || 'de' || 'iq' || 'sa' || 'ae') {
                     let ir = await freecurrencyapi(currency)
                     const buildsy: any = Build(ir, data)
                     Currencies.push(buildsy)
@@ -128,5 +128,13 @@ let country: any = {
     iq: {
         coinCode_ar: "د.ع",
         ar: "دينار عراقي"
+    },
+    sa: {
+        coinCode_ar: "ر.س",
+        ar: "ريال سعودي"
+    },
+    ae: {
+        coinCode_ar: "د.إ",
+        ar: "دينار امارتي"
     },
 }

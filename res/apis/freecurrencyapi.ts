@@ -7,6 +7,8 @@ async function freecurrencyapi(q: string) {
     if (q === 'ir') sell = "IRR"
     else if(q === 'de') sell = "EUR"
     else if(q === 'iq') sell = "IQD"
+    else if(q === 'sa') sell = "SAR"
+    else if(q === 'ae') sell = "AED"
     let schema = {
         update: Number(data.query.timestamp),
         name: q,
