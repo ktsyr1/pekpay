@@ -18,8 +18,8 @@ async function sp_today() {
     let find: any = await Currency.findOne({ name: 'sy', sell: { $ne: schema.sell } })
         .sort({ _id: -1 })
         .select('sell')
-    if (schema.sell > find.sell) schema['updown'] = 'up'
-    else if (schema.sell < find.sell) schema['updown'] = 'down'
+    if (schema.sell > find?.sell) schema['updown'] = 'up'
+    else if (schema.sell < find?.sell) schema['updown'] = 'down'
 
     Currency.create(schema)
     return schema
