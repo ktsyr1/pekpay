@@ -22,5 +22,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         type: NEW.type
 
     }]
+      res.setHeader('Content-Type', 'application/json')
+    res.setHeader('Access-Control-Allow-Origin', "*")
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+
     res.status(200).json(Data)
 } 
