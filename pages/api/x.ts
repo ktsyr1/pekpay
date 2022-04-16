@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     let { p } = req.query
     var options = {
         method: 'GET',
-        url: `https://apkcombo.com/ar/${p}/download/apk`
+        url: `https://apkcombo.com/ar/app.botqa.twa/download/apk`
     };
 
     cloudscraper(options)
