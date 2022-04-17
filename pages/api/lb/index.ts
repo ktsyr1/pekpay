@@ -1,6 +1,7 @@
-import lebanonprices from 'res/apis/lebanonprices'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Currency } from 'res/mongoDB';
+import { Send } from 'res/app';
+import lirarate from 'res/apis/lirarate';
 
 type Data = { data: any }
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
@@ -10,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     let data = await Currency
         .findOne({ name: 'lb', date: { $gt: lastHalfHour } })
         .select(' -__v -_id')
-    if (!data) NEW = await lebanonprices()
+    if (!data) NEW = await lirarate()
     else NEW = data
     let Data: any = [{
         "name": "ليرة لبناني",
@@ -22,10 +23,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         type: NEW.type
 
     }]
-      res.setHeader('Content-Type', 'application/json')
-    res.setHeader('Access-Control-Allow-Origin', "*")
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-
-    res.status(200).json(Data)
+    Send(res, Data)
 } 
