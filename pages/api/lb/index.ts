@@ -6,7 +6,8 @@ import lirarate from 'res/apis/lirarate';
 type Data = { data: any }
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     let timeNow = new Date().getTime()
-    let lastHalfHour = timeNow - (1000 * 60 * 15)
+    // let lastHalfHour = timeNow - (1000 * 60 * 15)
+    let lastHalfHour = timeNow - (1000 * 60)
     let NEW: any
     let data = await Currency
         .findOne({ name: 'lb', date: { $gt: lastHalfHour } })

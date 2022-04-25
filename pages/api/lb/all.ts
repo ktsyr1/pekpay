@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { Currency } from 'res/mongoDB';
 
 import sp_today from 'res/apis/sp-today'
-import lebanonprices from 'res/apis/lebanonprices'
+import lirarate from 'res/apis/lirarate'
 import freecurrencyapi from 'res/apis/freecurrencyapi';
 /**
  * add tr
@@ -29,6 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         .find({ type: 'local', date: { $gt: lastHalfHour } })
         .sort({ _id: -1 })
         .select(' -__v -_id')
+    // console.log(currencies);
 
     let data: any = await Verify(currencies, ['lb', 'sy', 'ir', 'de', 'iq', 'sa', 'ae'])
     res.status(200).json(data)
@@ -45,7 +46,7 @@ async function Verify(res: any, currencies: any) {
      * lb scrap 
      */
     // filter one
-    if (filter.length === 0) data = await lebanonprices()
+    if (filter.length === 0) data = await lirarate()
     else data = filter[0]
 
 
@@ -60,6 +61,7 @@ async function Verify(res: any, currencies: any) {
          * BUILD DATA 
          * push currency 
         */
+        console.log(Currencies);
         if (currency !== 'lb') {
             if (filter2.length > 0) {
                 const build = Build(filter2[0], data)
@@ -71,6 +73,8 @@ async function Verify(res: any, currencies: any) {
                     Currencies.push(buildsy)
                 } else if (currency === 'ir' || 'de' || 'iq' || 'sa' || 'ae') {
                     let ir = await freecurrencyapi(currency)
+                    console.log(ir);
+
                     const buildsy: any = Build(ir, data)
                     Currencies.push(buildsy)
                 }

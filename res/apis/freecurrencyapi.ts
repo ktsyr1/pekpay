@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Currency } from 'res/mongoDB';
 async function freecurrencyapi(q: string) {
-    let URL: string = "https://freecurrencyapi.net/api/v2/latest?apikey=dae4db80-7936-11ec-9c16-9567237e8923"
+    let URL: string = "https://api.currencyapi.com/v3/latest?apikey=dae4db80-7936-11ec-9c16-9567237e8923"
     let { data } = await axios.get(URL)
     let sell: any = ''
     if (q === 'ir') sell = "IRR"

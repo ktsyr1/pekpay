@@ -1,12 +1,12 @@
 import axios from "axios";
 import { Currency } from 'res/mongoDB';
 async function lirarate() {
-    let URL: string = 'https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP'
+    console.log('lirarate');
+    let date = new Date()
+    let d = `t${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}${date.getHours()}` 
+    let URL: string = `https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP&_ver=${d}`
     let { data } = await axios.get(URL)
     let { buy, sell } = data
-
-    data = { buy: buy[buy.length - 1], sell: sell[sell.length - 1] }
-
     let s = sell[sell.length - 1]
     let b = buy[buy.length - 1]
 
@@ -16,8 +16,8 @@ async function lirarate() {
         buy: b[1],
 
     }
-    console.log(data);
-    
+    // console.log(data);
+
     let schema = {
         update: Number(data.time),
         name: 'lb',
@@ -27,7 +27,7 @@ async function lirarate() {
         type: 'local',
         updown: "Equal"
     }
-    console.log(schema);
+    // console.log(schema);
 
     let find: any = await Currency.findOne({ name: 'lb', sell: { $ne: schema.sell } })
         .sort({ _id: -1 })
